@@ -14,7 +14,7 @@
 #include <fcntl.h>
 #define int long long // 64 bit 電腦
 
-int *e;  // current position in emitted code (e: 目前機器碼指標, le: 上一行機器碼指標)
+int *e;  // Current position in emitted code (e: 目前機器碼指標, le: 上一行機器碼指標)
 int debug = 1;
 
 // opcodes (機器碼的 op)
@@ -135,7 +135,7 @@ int main() // 主程式
 // 11: }
   *e++ = LEV;
 
-  // setup stack
+  // Setup stack
   bp = sp = (int *)((int)sp + poolsz);
   *--sp = EXIT; // call exit if main returns
   *--sp = PSH; t = sp;
