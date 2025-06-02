@@ -494,20 +494,20 @@ int run(int *pc, int *bp, int *sp) { // 虛擬機 => pc: 程式計數器, sp: �
          "OPEN,READ,CLOS,PRTF,MALC,FREE,MSET,MCMP,EXIT,"[i * 5]);
       if (i <= ADJ) printf(" %d\n", *pc); else printf("\n");
     }
-    if      (i == LLA) a = (int)(bp + *pc++);                             // load local address 載入區域變數
-    else if (i == IMM) a = *pc++;                                         // load global address or immediate 載入全域變數或立即值
-    else if (i == JMP) pc = (int *)*pc;                                   // jump               躍躍指令
-    else if (i == JSR) { *--sp = (int)(pc + 1); pc = (int *)*pc; }        // jump to subroutine 跳到副程式
-    else if (i == BZ)  pc = a ? pc + 1 : (int *)*pc;                      // branch if zero     if (a==0) goto m[pc]
-    else if (i == BNZ) pc = a ? (int *)*pc : pc + 1;                      // branch if not zero if (a!=0) goto m[pc]
-    else if (i == ENT) { *--sp = (int)bp; bp = sp; sp = sp - *pc++; }     // enter subroutine   進入副程式
-    else if (i == ADJ) sp = sp + *pc++;                                   // stack adjust       調整堆疊
-    else if (i == LEV) { sp = bp; bp = (int *)*sp++; pc = (int *)*sp++; } // leave subroutine   離開副程式
-    else if (i == LI)  a = *(int *)a;                                     // load int           載入整數
-    else if (i == LC)  a = *(char *)a;                                    // load char          載入字元
-    else if (i == SI)  *(int *)*sp++ = a;                                 // store int          儲存整數
-    else if (i == SC)  a = *(char *)*sp++ = a;                            // store char         儲存字元
-    else if (i == PSH) *--sp = a;                                         // push               推入堆疊
+    if      (i == LLA) a = (int)(bp + *pc++);                             // Load local address 載入區域變數
+    else if (i == IMM) a = *pc++;                                         // Load global address or immediate 載入全域變數或立即值
+    else if (i == JMP) pc = (int *)*pc;                                   // Jump               躍躍指令
+    else if (i == JSR) { *--sp = (int)(pc + 1); pc = (int *)*pc; }        // Jump to subroutine 跳到副程式
+    else if (i == BZ)  pc = a ? pc + 1 : (int *)*pc;                      // Branch if zero     if (a==0) goto m[pc]
+    else if (i == BNZ) pc = a ? (int *)*pc : pc + 1;                      // Branch if not zero if (a!=0) goto m[pc]
+    else if (i == ENT) { *--sp = (int)bp; bp = sp; sp = sp - *pc++; }     // Enter subroutine   進入副程式
+    else if (i == ADJ) sp = sp + *pc++;                                   // Stack adjust       調整堆疊
+    else if (i == LEV) { sp = bp; bp = (int *)*sp++; pc = (int *)*sp++; } // Leave subroutine   離開副程式
+    else if (i == LI)  a = *(int *)a;                                     // Load int           載入整數
+    else if (i == LC)  a = *(char *)a;                                    // Load char          載入字元
+    else if (i == SI)  *(int *)*sp++ = a;                                 // Store int          儲存整數
+    else if (i == SC)  a = *(char *)*sp++ = a;                            // Store char         儲存字元
+    else if (i == PSH) *--sp = a;                                         // Push               推入堆疊
 
     else if (i == OR)  a = *sp++ |  a; // a = a OR *sp
     else if (i == XOR) a = *sp++ ^  a; // a = a XOR *sp
@@ -554,7 +554,7 @@ int compile(int argc, char **argv) // 主程式
 
   if ((fd = open(*argv, 0)) < 0) { printf("could not open(%s)\n", *argv); return -1; }
 
-  poolsz = 256*1024; // arbitrary size
+  poolsz = 256*1024; // Arbitrary size
   if (!(sym = malloc(poolsz))) { printf("could not malloc(%d) symbol area\n", poolsz); return -1; } // 符號段
   if (!(le = e = malloc(poolsz))) { printf("could not malloc(%d) text area\n", poolsz); return -1; } // 程式段
   if (!(data = malloc(poolsz))) { printf("could not malloc(%d) data area\n", poolsz); return -1; } // 資料段
@@ -566,10 +566,10 @@ int compile(int argc, char **argv) // 主程式
 
   p = "char else enum if int return sizeof for do while "
       "open read close printf malloc free memset memcmp exit void main";
-  i = Char; while (i <= While) { next(); id[Tk] = i++; } // add keywords to symbol table
-  i = OPEN; while (i <= EXIT) { next(); id[Class] = Sys; id[Type] = INT; id[Val] = i++; } // add library to symbol table
-  next(); id[Tk] = Char; // handle void type
-  next(); idmain = id; // keep track of main
+  i = Char; while (i <= While) { next(); id[Tk] = i++; } // Add keywords to symbol table
+  i = OPEN; while (i <= EXIT) { next(); id[Class] = Sys; id[Type] = INT; id[Val] = i++; } // Add library to symbol table
+  next(); id[Tk] = Char; // Handle void type
+  next(); idmain = id; // Keep track of main
 
   if (!(lp = p = malloc(poolsz))) { printf("could not malloc(%d) source area\n", poolsz); return -1; }
   if ((i = read(fd, p, poolsz-1)) <= 0) { printf("read() returned %d\n", i); return -1; }
@@ -582,9 +582,9 @@ int compile(int argc, char **argv) // 主程式
   if (src) return 0;
   if (dump) { sym_dump(sym); return 0; }
 
-  // setup stack
+  // Setup stack
   bp = sp = (int *)((int)sp + poolsz);
-  *--sp = EXIT; // call exit if main returns
+  *--sp = EXIT; // Call exit if main returns
   *--sp = PSH; t = sp;
   *--sp = argc;
   *--sp = (int)argv;
