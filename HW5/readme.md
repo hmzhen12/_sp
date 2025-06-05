@@ -1,25 +1,25 @@
-## 0326.c
+## 胡眉真 main.c
 
-執行0326.c
+執行main.c
 ```
- gcc 0326.c
+ gcc main.c
  ./a.exe
 ```
 產生組合語言.s檔
 ```
-gcc -S 0326.c
+gcc -S main.c
 ```
 
 產生目的檔.o檔
 ```
-gcc -c 0326.c
+gcc -c main.c
 ```
 將該目的檔反組譯
 ```
-objdump -d 0326.o
+objdump -d main.o
 ```
 ```sh
-0326.o:     file format pe-x86-64
+main.o:     file format pe-x86-64
 
 
 Disassembly of section .text:
@@ -60,10 +60,10 @@ Disassembly of section .text:
 ```
 印出該目的檔的表頭
 ```
-objdump -h 0326.o
+objdump -h main.o
 ```
 ```sh
-0326.o:     file format pe-x86-64
+main.o:     file format pe-x86-64
 
 Sections:
 Idx Name          Size      VMA               LMA             
