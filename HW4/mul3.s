@@ -2,7 +2,7 @@
         
         .text
 mul3:
-        mov     %rdi, %rax                # result (rax) initially holds x
+        mov     %rdi, %rax                
         imulq     %rsi, %rax              
         imulq   %rdx, %rax                
         ret                               
